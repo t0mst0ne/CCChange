@@ -1,0 +1,33 @@
+---
+import type { GetStaticPaths } from "astro";
+import PageLayout from "@/layouts/PageLayout.astro";
+import PostFeed from "@/components/content/PostFeed.astro";
+import { getPostsByProduct } from "@/utils/content";
+import { getAssetPath } from "@/utils/url";
+import siteConfig from "@/site.config";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return paginate(await getPostsByProduct("codex"), {
+    pageSize: siteConfig.postsPerPage,
+  });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const title = page.currentPage === 1
+  ? "OpenAI Codex 講義"
+  : `OpenAI Codex 講義 · 第 ${page.currentPage} 頁`;
+---
+
+<PageLayout {title} description="追蹤 Codex CLI、App 與 IDE 的更新：改了什麼、為什麼改、你要做什麼。">
+  <nav aria-label="Codex 資源" class="mb-8 flex flex-wrap gap-5 font-ui text-ui">
+    <a href={getAssetPath("/codex/archive")} class="link-hover">所有 Codex 講義</a>
+    <a href={getAssetPath("/codex/rss.xml")} class="link-hover">訂閱 Codex RSS</a>
+    <a href="https://learn.chatgpt.com/docs/changelog" class="link-hover">官方更新紀錄</a>
+  </nav>
+  <PostFeed posts={page.data} />
+  <nav aria-label="Codex 分頁" class="mt-12 flex items-center justify-between gap-4 font-ui text-ui">
+    <div>{page.url.prev && <a href={page.url.prev} class="link-hover">← 上一頁</a>}</div>
+    <span>第 {page.currentPage} / {page.lastPage} 頁</span>
+    <div>{page.url.next && <a href={page.url.next} class="link-hover">下一頁 →</a>}</div>
+  </nav>
+</PageLayout>

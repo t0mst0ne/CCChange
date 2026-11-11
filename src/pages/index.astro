@@ -2,14 +2,16 @@
 import siteConfig from '@/site.config';
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import SEO from "@/components/SEO.astro";
-import { getAllPosts } from "@/utils/content";
+import { getPostsByProduct } from "@/utils/content";
+import { getAssetPath } from "@/utils/url";
 import HomeHero from "@/components/content/HomeHero.astro";
 import { generateWebsiteSchema } from "@/utils/schema";
 import FeaturedPost from '@/components/content/FeaturedPost.astro';
 import RecentPosts from '@/components/content/RecentPosts.astro';
 import Footer from '@/components/Footer.astro';
 
-const allPosts = await getAllPosts();
+const allPosts = await getPostsByProduct("claude-code");
+const codexPosts = await getPostsByProduct("codex");
 const structuredData = generateWebsiteSchema();
 ---
 <BaseLayout schema={structuredData}>
@@ -20,6 +22,11 @@ const structuredData = generateWebsiteSchema();
 	<!-- <MastHead /> -->
 	<FeaturedPost post={allPosts[0]} />
 	<RecentPosts posts={allPosts.slice(1, siteConfig.recentPosts)} sectionTitle="Recent" />
+	<section class="my-8 border-t border-border pt-8">
+		<h2 class="text-lead font-medium"><a href={getAssetPath("/codex")} class="link-hover">OpenAI Codex 講義 →</a></h2>
+		<p class="mt-2 text-muted-foreground">追蹤 Codex CLI、App 與 IDE 更新，拆解對工作流程的影響。</p>
+		<RecentPosts posts={codexPosts.slice(0, 3)} sectionTitle="Codex 最新講義" archiveUrl="/codex/archive" />
+	</section>
 	<Fragment slot="footer">
     <Footer
 			meta='Built for readers, writers, and unfinished drafts.'

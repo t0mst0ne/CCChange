@@ -2,13 +2,17 @@
 import { getAssetPath } from "@/utils/url";
 import HomeIcon from "@/assets/home.svg"
 
+interface Props {
+  items?: { label: string; href: string }[];
+}
+
 const pathname = Astro.url.pathname;
 
 const segments = pathname
   .split("/")
   .filter(Boolean);
 
-const breadcrumbs = segments.map(
+const breadcrumbs = Astro.props.items ?? segments.map(
   (segment, index) => {
     const href =
       "/" +

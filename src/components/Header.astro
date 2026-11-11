@@ -5,11 +5,12 @@ import { getAssetPath } from "@/utils/url";
 const pathname = Astro.url.pathname;
 
 function isActive(url: string) {
-  if (url === "/") {
-    return pathname === "/";
+  if (pathname.startsWith(getAssetPath("/posts/codex/"))) {
+    return url === "/codex";
   }
-
-  return pathname.startsWith(url);
+  const target = getAssetPath(url).replace(/\/$/, "");
+  return pathname === target || pathname === `${target}/` ||
+    (url !== "/" && pathname.startsWith(`${target}/`));
 }
 ---
 

@@ -1,4 +1,4 @@
-name: Auto-merge Claude daily posts
+name: Auto-merge daily posts
 
 # Runs after CI finishes. `workflow_run` executes from the base branch with the
 # repository's own token, so it can merge — but that also means it must not
@@ -34,7 +34,6 @@ jobs:
           # what normally passes a PR; this is a fallback for identities that
           # report an unexpected association.
           ALLOWED_AUTHORS: htlin222
-          REQUIRED_LABEL: claude-daily
         run: |
           set -euo pipefail
 
@@ -81,8 +80,8 @@ jobs:
               ;;
           esac
           case " $labels " in
-            *" $REQUIRED_LABEL "*) ;;
-            *) fail "missing required label '$REQUIRED_LABEL'" ;;
+            *" claude-daily "*|*" codex-daily "*) ;;
+            *) fail "missing claude-daily or codex-daily label" ;;
           esac
 
           # A daily post touches content only. Anything that can change what CI

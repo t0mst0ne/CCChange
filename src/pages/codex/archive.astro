@@ -1,0 +1,7 @@
+---
+import ProductArchive from "@/components/content/ProductArchive.astro";
+import { getPostsByProduct } from "@/utils/content";
+
+const posts = await getPostsByProduct("codex");
+---
+<ProductArchive {posts} title="Codex 封存" description="搜尋 OpenAI Codex 講義，依年份與標籤篩選。" />

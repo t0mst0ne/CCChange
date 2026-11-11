@@ -1,7 +1,10 @@
 # CCChange
 
-每日一則 Claude Code changelog 中文講義的 Astro 站台，出刊流程由 Claude Code 自己跑。
+Claude Code 與 OpenAI Codex changelog 中文講義的 Astro 站台。
 線上位置：https://htlin222.github.io/CCChange/
+
+以下出刊程序指 Claude Code；Codex 專區的規格在
+`.agents/skills/daily-codex-post/SKILL.md`，repo 共通規則見 `AGENTS.md`。
 
 ## 出刊怎麼跑
 

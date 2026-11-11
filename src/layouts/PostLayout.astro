@@ -72,7 +72,10 @@ const galleryImages = getGalleryImages(post.filePath ?? '');
     {ogImage}
   />
   <Fragment slot="header">
-    <Breadcrumb />
+    <Breadcrumb items={[
+      { label: post.data.product === "codex" ? "Codex" : "Claude Code", href: getAssetPath(post.data.product === "codex" ? "/codex" : "/posts") },
+      { label: post.data.title, href: Astro.url.pathname },
+    ]} />
     <!-- Post Header -->
     <header class="space-y-4">
       <!-- Title -->
@@ -113,6 +116,7 @@ const galleryImages = getGalleryImages(post.filePath ?? '');
       <meta data-pagefind-meta="title[content]" content={title} />
       <meta data-pagefind-sort="date[content]" content={published.toISOString()} />
 	    <meta data-pagefind-filter="collection[content]" content={post.collection} />
+      <meta data-pagefind-filter="product[content]" content={post.data.product} />
       {tags?.map((tag) => (
         <meta data-pagefind-filter="tag[content]" content={tag} />
       ))}

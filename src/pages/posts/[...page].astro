@@ -1,6 +1,6 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getAllPosts } from "@/utils/content";
+import { getPostsByProduct } from "@/utils/content";
 import PageLayout from "@/layouts/PageLayout.astro";
 import PostFeed from "@/components/content/PostFeed.astro";
 import siteConfig from "@/site.config";
@@ -9,7 +9,7 @@ import PageHeader from "@/components/PageHeader.astro";
 export const getStaticPaths = (async ({
   paginate,
 }) => {
-  const allPosts = await getAllPosts();
+  const allPosts = await getPostsByProduct("claude-code");
 
   return paginate(allPosts, {
     pageSize: siteConfig.postsPerPage,
@@ -17,13 +17,12 @@ export const getStaticPaths = (async ({
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const allPosts = await getAllPosts();
 const isFirstPage = page.currentPage === 1;
 const title = isFirstPage
-  ? "Posts"
-  : `Posts - Page ${page.currentPage}`;
+  ? "Claude Code 講義"
+  : `Claude Code 講義 - Page ${page.currentPage}`;
 const description =
-  "Browse all published posts.";
+  "Claude Code 的版本變更與工作流程建議。";
 
 ---
 <PageLayout

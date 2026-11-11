@@ -2,6 +2,7 @@
 import { type Post } from "@/utils/content";
 import { calculateReadingTime } from "@/utils/text";
 import siteConfig from "@/site.config";
+import { getAssetPath } from "@/utils/url";
 
 type Props = {
   post: Post;
@@ -29,6 +30,9 @@ const readingTime =
     ? calculateReadingTime(post.body ?? "").text
     : null;
 ---
+<a href={getAssetPath(post.data.product === "codex" ? "/codex" : "/posts")} class="link-hover">
+  {post.data.product === "codex" ? "Codex" : "Claude Code"}
+</a>
 {
   category && (
     <span

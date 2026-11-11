@@ -19,6 +19,9 @@ const REQUIRED_PATHS = [
   "about/index.html",
   "archive/index.html",
   "posts/index.html",
+  "codex/index.html",
+  "codex/archive/index.html",
+  "codex/rss.xml",
   "rss.xml",
   "sitemap-index.xml",
   "pagefind/pagefind.js",
@@ -124,6 +127,41 @@ const posts = walk(join(DIST, "posts")).filter((f) => f.endsWith(".html"));
 if (posts.length < 2) {
   // posts/index.html plus at least one real post page
   errors.push(`expected at least one rendered post page, found ${posts.length}`);
+}
+
+// Lists and article recommendations must not cross product boundaries. The
+// homepage intentionally previews both products, and tags/search span both.
+for (const file of html) {
+  const rel = relative(DIST, file);
+  const isCodex = rel.startsWith("codex/") || rel.startsWith("posts/codex/");
+  const isClaude = (rel.startsWith("posts/") && !rel.startsWith("posts/codex/")) || rel === "archive/index.html";
+  if (!isCodex && !isClaude) continue;
+  const source = readFileSync(file, "utf8");
+  for (const [, path] of source.matchAll(/href="(\/CCChange\/posts\/[^"?#]+)"/g)) {
+    const linksToCodex = path.startsWith(`${BASE}/posts/codex/`);
+    if (linksToCodex !== isCodex) {
+      errors.push(`${rel}: article link crosses products: ${path}`);
+    }
+  }
+}
+
+for (const [feed, product] of [["rss.xml", "claude-code"], ["codex/rss.xml", "codex"]]) {
+  if (!existsSync(join(DIST, feed))) continue;
+  const source = readFileSync(join(DIST, feed), "utf8");
+  const items = [...source.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+  if (!items.length) errors.push(`${feed}: contains no published articles`);
+  for (const [, item] of items) {
+    const link = item.match(/<link>([^<]+)<\/link>/)?.[1];
+    try {
+      const path = new URL(link).pathname;
+      if (!path.startsWith(`${BASE}/posts/`) ||
+          path.startsWith(`${BASE}/posts/codex/`) !== (product === "codex")) {
+        errors.push(`${feed}: incorrect product or base in article link: ${link}`);
+      }
+    } catch {
+      errors.push(`${feed}: invalid article link: ${link ?? "(missing)"}`);
+    }
+  }
 }
 
 for (const e of errors) console.error(`error ${e}`);

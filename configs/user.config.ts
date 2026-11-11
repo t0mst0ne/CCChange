@@ -3,20 +3,22 @@ import type { UserConfig } from "../src/site.config";
 const userConfig: UserConfig = {
   title: "CCChange",
   description:
-    "Claude Code 每日 changelog 講義 — 逐版拆解新功能的精神、社群討論、對工作流的實際影響，以及誠實的判決。",
+    "Claude Code 與 OpenAI Codex 的 changelog 中文講義，追蹤版本更新與工作流程的實際影響。",
 
   // GitHub Pages project site: <user>.github.io + base "/CCChange" (see astro.config.mjs)
   url: "https://htlin222.github.io",
   author: "htlin222",
 
   navigation: [
-    { title: "講義", url: "/posts" },
+    { title: "Claude Code", url: "/posts" },
+    { title: "Codex", url: "/codex" },
     { title: "封存", url: "/archive" },
     { title: "關於", url: "/about" },
   ],
 
   footerLinks: [
-    { title: "RSS", url: "/rss.xml" },
+    { title: "Claude Code RSS", url: "/rss.xml" },
+    { title: "Codex RSS", url: "/codex/rss.xml" },
     { title: "Archive", url: "/archive" },
     { title: "Source", url: "https://github.com/htlin222/CCChange" },
   ],
@@ -29,7 +31,7 @@ const userConfig: UserConfig = {
     },
   ],
 
-  footerCredits: "Built with Astro & Lipi · 由 Claude Code 每日自動出刊",
+  footerCredits: "Built with Astro & Lipi · Claude Code 與 OpenAI Codex 講義",
 
   postsPerPage: 10,
   recentPosts: 6,

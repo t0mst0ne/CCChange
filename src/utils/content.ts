@@ -5,6 +5,7 @@ import siteConfig from "@/site.config";
 import {POSTS_PATH, PAGES_PATH} from "@/content.config";
 
 export type Post = CollectionEntry<"posts">;
+export type Product = Post["data"]["product"];
 export type Page = CollectionEntry<"pages">;
 export type TagArchive = {
   tag: string;
@@ -88,6 +89,11 @@ export async function getAllPages(): Promise<Page[]> {
   pagesCache = pages;
 
   return pagesCache;
+}
+
+/** Legacy articles belong to Claude Code through the collection's default. */
+export async function getPostsByProduct(product: Product): Promise<Post[]> {
+  return (await getAllPosts()).filter((post) => post.data.product === product);
 }
 
 export async function getAllTagArchives(): Promise<TagArchive[]> {
@@ -272,6 +278,7 @@ export function getAdjacentPosts<
   posts: T[],
   currentPost: T
 ) {
+  posts = posts.filter((post) => post.data.product === currentPost.data.product);
   const index = posts.findIndex(
     (post) => post.id === currentPost.id
   );
@@ -361,7 +368,8 @@ export function getRelatedPosts(
   return posts
     .filter(
       (post) =>
-        post.id !== currentPost.id
+        post.id !== currentPost.id &&
+        post.data.product === currentPost.data.product
     )
     .map((post) => ({
       post,

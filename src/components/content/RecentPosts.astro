@@ -9,12 +9,14 @@ type Props = {
   posts: Post[];
   sectionTitle?: string;
   sectionDesc?: string;
+  archiveUrl?: string;
 };
 
 const {
   posts,
   sectionTitle,
   sectionDesc,
+  archiveUrl = "/archive",
 } = Astro.props;
 
 ---
@@ -37,7 +39,7 @@ const {
     ))}
   </div>
 
-  <a href={getAssetPath("/archive")} class="group inline-cta text-muted-foreground hover:text-foreground">
+  <a href={getAssetPath(archiveUrl)} class="group inline-cta text-muted-foreground hover:text-foreground">
     <span class="inline-cta-line group-hover:w-16"></span>
     Browse archive
   </a>

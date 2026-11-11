@@ -1,5 +1,8 @@
 # 雲端出刊 prompt
 
+本文件適用於 Claude Code 講義。Codex 講義使用
+`.agents/skills/daily-codex-post/SKILL.md`，官方來源與版本判定依產品分開。
+
 貼給雲端 agent 用的。**這份只放雲端環境跟本機不一樣的地方**，程序本身在
 `.claude/skills/daily-changelog-post/SKILL.md`，不要把它複製過來。複製過來的那天
 起，改 skill 就不會改到雲端，兩份會分岔。

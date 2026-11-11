@@ -21,7 +21,8 @@ const { lang = "zh-Hant", schema } = Astro.props;
 
   <link rel="icon" href={getAssetPath("/favicon.ico")} type="image/svg+xml" />
   <link rel="sitemap" href={getAssetPath("/sitemap-index.xml")} />
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed" href={getAssetPath("/rss.xml")} />
+  <link rel="alternate" type="application/rss+xml" title="Claude Code RSS" href={getAssetPath("/rss.xml")} />
+  <link rel="alternate" type="application/rss+xml" title="Codex RSS" href={getAssetPath("/codex/rss.xml")} />
 
 	  <!-- SEO injected per layout -->
   <slot name="seo" />

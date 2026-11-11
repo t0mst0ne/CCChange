@@ -17,6 +17,7 @@ const postsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    product: z.enum(["claude-code", "codex"]).default("claude-code"),
     published: z.coerce.date(),
     updated: z.coerce.date().optional(),
     category: z.string().optional().default("Travels"),
